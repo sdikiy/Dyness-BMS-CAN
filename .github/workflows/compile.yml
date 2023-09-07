@@ -1,0 +1,25 @@
+name: Compile
+
+on:
+  - push
+  - pull_request
+
+jobs:
+  compile-stm32:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3    
+
+      - name: Compile for BLUEPILL_F103C8
+        uses: arduino/compile-sketches@main
+        with:
+          platforms: |
+            - name: "STMicroelectronics:stm32"
+              source-url: https://github.com/stm32duino/BoardManagerFiles/raw/main/package_stmicroelectronics_index.json
+          fqbn: "STMicroelectronics:stm32:GenF1:pnum=BLUEPILL_F103C8"
+          libraries: |
+            - source-path: ./ 
+            - name: STM32_CAN
+          sketch-paths: |
+            - Dyness-BMS-CAN/Dyness-BMS-CAN.ino
