@@ -3,13 +3,13 @@
 STM32_CAN Can( CAN1, ALT ); //Use PB8/9 pins for CAN1.
 static CAN_message_t CAN_RX_msg;
 
-HardwareSerial Serial2(PA3, PA2);
-HardwareSerial Serial3(PB11, PB10);
+HardwareSerial Serial2( PA3, PA2 );
+HardwareSerial Serial3( PB11, PB10 );
 
 uint16_t counter = 0;
 
 void setup() {
-  pinMode(LED_BUILTIN, OUTPUT);
+  pinMode( LED_BUILTIN, OUTPUT );
   Serial.begin( 921600 );
   Serial2.begin( 921600 );
   Serial3.begin( 921600 );
@@ -19,7 +19,7 @@ void setup() {
 }
 
 void loop() {
-  if (Can.read( CAN_RX_msg ) ) {
+  if ( Can.read( CAN_RX_msg ) ) {
     counter++;
     digitalWrite( LED_BUILTIN, counter % 2 );
     Serial2.println( counter );
