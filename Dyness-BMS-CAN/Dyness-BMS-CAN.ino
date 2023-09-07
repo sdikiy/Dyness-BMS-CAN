@@ -33,7 +33,7 @@ void loop() {
     Serial.print( CAN_RX_msg.id, HEX );
 
     if ( !CAN_RX_msg.flags.remote ) {
-        Serial.print( " D: " );
+      Serial.print( " D: " );
       for ( int i = 0; i < CAN_RX_msg.len; i++ ) {
         Serial.print( "0x" ); 
         Serial.print( CAN_RX_msg.buf[i], HEX ); 
