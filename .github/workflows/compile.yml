@@ -24,10 +24,17 @@ jobs:
           sketch-paths: |
             - Dyness-BMS-CAN/Dyness-BMS-CAN.ino
           cli-compile-flags: |
-            - -e
+            - --export-binaries
+          enable-warnings-report: true
 
-      - name: ls
+      - name: List build
         run: |
           pwd
           sudo df -h
-          sudo ls -lR
+          ls -lR ./Dyness-BMS-CAN
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: Dyness-BMS-CAN
+          path: ./Dyness-BMS-CAN/build
