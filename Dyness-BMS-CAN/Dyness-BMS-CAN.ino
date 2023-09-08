@@ -3,6 +3,28 @@
 STM32_CAN Can( CAN1, ALT ); //Use PB8/9 pins for CAN1.
 static CAN_message_t CAN_RX_msg;
 
+void printCanMsg() {
+  if ( !CAN_RX_msg.flags.extended ) {
+    Serial.print( "sID: " );
+  } else {
+    Serial.print( "eID: " );
+  }
+  Serial.print( CAN_RX_msg.id, HEX );
+
+  if ( !CAN_RX_msg.flags.remote ) {
+    Serial.print( " D: " );
+    for ( int i = 0; i < CAN_RX_msg.len; i++ ) {
+      Serial.print( "0x" );
+      Serial.print( CAN_RX_msg.buf[i], HEX );
+      if ( i != ( CAN_RX_msg.len - 1 ) )
+        Serial.print( " " );
+    }
+    Serial.println();
+  } else {
+    Serial.println( " D: REMOTE REQUEST FRAME" );
+  }
+}
+
 HardwareSerial Serial2( PA3, PA2 );
 HardwareSerial Serial3( PB11, PB10 );
 
@@ -25,24 +47,6 @@ void loop() {
     Serial2.println( counter );
     Serial3.println( counter );
 
-    if ( !CAN_RX_msg.flags.extended ) {
-      Serial.print( "sID: " );
-    } else {
-      Serial.print( "eID: " );
-    }
-    Serial.print( CAN_RX_msg.id, HEX );
-
-    if ( !CAN_RX_msg.flags.remote ) {
-      Serial.print( " D: " );
-      for ( int i = 0; i < CAN_RX_msg.len; i++ ) {
-        Serial.print( "0x" ); 
-        Serial.print( CAN_RX_msg.buf[i], HEX ); 
-        if ( i != ( CAN_RX_msg.len - 1 ) )
-          Serial.print( " " );
-      }
-      Serial.println();
-    } else {
-        Serial.println( " D: REMOTE REQUEST FRAME" );
-    }
+    printCanMsg();
   }
 }
